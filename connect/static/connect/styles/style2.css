@@ -17,12 +17,7 @@ body{
 
 #right {
     height: 50rem;
-    /* padding: 0 0 0 200rem; */
 
-    /* position: fixed; */
-    /* width: 100%;
-    right:5% */
-    float: right;
     
 }
 
@@ -42,7 +37,6 @@ body{
 #c1{
     height: 70rem;
     margin-top: 10rem;
-    padding-left: 50rem;
     width: 85rem;
     border-radius: 4rem;
     border-bottom-left-radius: 0%;

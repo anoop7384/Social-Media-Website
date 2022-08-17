@@ -1,6 +1,7 @@
 console.log("Welcome");
 
 const findMyLoc = () => {
+    console.log("Getting the location");
     const status = document.querySelector('#location');
     const success = (position) => {
         

@@ -1,125 +1,171 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'connect/styles/style2.css' %}">
-
+    <script src="https://cdn.tailwindcss.com"></script>
     {% if title %}
-        <title>Alcheringa Connect- {{ title }}</title>
+    <title>Alcheringa Connect- {{ title }}</title>
     {% else %}
-        <title>Alcheringa Connect</title>
+    <title>Alcheringa Connect</title>
     {% endif %}
+    <style>
+        #id_image{
+            padding-left: 5rem;
+            padding-top: 4rem;
+        }
+
+        #id_constent {
+            box-shadow: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            width: 100%;
+            height: 5rem;
+            background-color: rgb(255 237 213);
+            border-radius: 0.3rem;
+            padding-left: 0.5rem;
+            font-size: large;
+        }
+        #imgUP {
+            cursor: pointer;
+            text-align: center;
+            justify-content: center;
+            border: 1px solid lightgray;
+            border-radius: 1rem;
+
+            margin-top: 1rem;
+            font-size: 2rem;
+            color: grey;
+        }
+    </style>
+
 </head>
+
 <body>
-    <div class="container" style="margin: 0 auto; width: 100%;">
-        <div class="row" style="width:100%;">
-
-            <div class=" col-12 col-md-7" id="left">
-                
-                <img src="{%static 'connect/images/logi.jpg' %}" alt="image" srcset="" style="width: 10rem; ">
-                <p class="text-secondary" style=" display: inline-block; font-size: 5.5rem; margin-left: 2rem; margin-right: 1rem;  ">Alcheringa
-                <span  style="font-size: 5.5rem; color: rgb(237, 105, 61);">Connect</span></p>
-                {% for post in posts%}
-                    <div class="card" id="c1">
-                        <div id="c1a">
-                            <div class="row" >
-                                <div class="col-1">
-                                    <img src="{%static 'connect/images/OIP.jfif' %}" alt="logo" srcset="" style="border-radius: 50%; height: 6rem; margin:  1.5rem 3rem ; " >
-                                </div>
-                                <div class="col-11" style="font-size: 3rem;  margin: auto; padding-left: 4rem;">
-                                    <b>Classic Nature</b>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="c1b">
-                            <img src="{%static 'connect/images/725584.png' %}" alt="" srcset="" style="height: 50rem; width: 85rem;">
-                        </div>
-                        <div id="c1c">
-                            <div class="row">
-                                <div class="col-1" >
-                                    <img src="{%static 'connect/images/download.png' %}" alt="" srcset="" style="height: 5rem; margin: 2.5rem; ">
-                                    
-                                </div>
-                                <div class="col-9" style="font-size: 3rem; margin : 2.5rem 0 0 0 ;padding-left: 3rem;" >
-                                    <b>{{post}}</b>
-                                </div>
-                                <div class="col-2">
-                                    <img src="{%static 'connect/images/images.png' %}" alt="" srcset="" height="30rem" style="margin: 1.5rem 0 0 4rem;">
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                {% endfor %} 
-                
-                
-                
+    <div class="grid grid-cols-12 mt-4">
+        <div class="md:col-span-7 col-span-12  ">
+            <div class="grid grid-cols-12 flex items-center">
+                <div class="col-span-3 flex justify-end">
+                    <img src="{%static 'connect\images\logi.jpg' %}" class="h-20" alt="" srcset="" class="">
+                </div>
+                <div class="col-span-9 text-5xl pl-3 text-gray-600">
+                    Alcheringa <span class="text-orange-500">Connect</span>
+                </div>
             </div>
-
-
-
-
-
-            <div class=" col-12 col-md-5" id="right">
-                <div class="card"  id="c2">
-                    <div class="container-fluid  " id="d1">
-                        <div class="row" style="margin-bottom: 5rem;">
-                            <div class="col-8 text-light " style="margin-top: 11rem; font-size: 5rem; margin-left: 1rem;" >
-                                My Profile
+            <div class="mx-48 pl-16 mt-24">
+                {% for post in posts%}
+                <div class="card shadow-xl border border-gray-200 rounded-t-3xl  pt-4 my-12" id="c1">
+                    <div class="pl-8 mb-4">
+                        <div class="grid grid-cols-8">
+                            <div class="col-span-1">
+                                <img src="{{ post.author.profile.image.url }}" alt="logo" srcset=""
+                                  class="h-12 w-12 rounded-full"  >
                             </div>
-                            <div class="col-3">
-                                <img src="{%static 'connect/images/exit.png' %}" alt="Exit" srcset="" style="height: 9rem; margin-top: 10rem; margin-left: 7rem;">
+                            <div class="col-span-7 text-2xl" >
+                                <b>{{ post.author }}</b>
                             </div>
                         </div>
+                    </div>
+                    <div id="c1b" onclick="window.location.href=`{% url 'post-detail' post.id %}`"
+                        >
+                        <img src="{{ post.image.url }}" alt="" srcset="" class="h-96 cursor-pointer" >
+                    </div>
+                    <div id="c1c">
+                        <div class="grid-cols-12 my-4 px-8">
+                            <div class="col-span-2">
+                                <img src="{%static 'connect/images/download.png' %}" alt="" srcset=""
+                                   class="h-12 w-12 cursor-pointer float-left" >
 
-                    </div>
-                    <div class="card-body" style="margin: 5rem 2.5rem auto 2.5rem;">
-                      <div id="name" style="height: 12rem;">
-                        <div class="row" >
-                            <div class="col-3">
-                                <img src="{%static 'connect/images/OIP.jfif' %}" alt="logo" srcset="" style="border-radius: 50%;" height="45rem">
                             </div>
-                            <div class="col-9">
-                                <div class="text-secondary " style=" font-size: 2rem;">username</div>
-                                <div style="font-size: 2.5rem;" ><b>anoop7384</b></div>
+                            <div class="col-span-8 text-2xl float-left ml-4 flex items-center pt-2" >
+                                <b>{{ post.title }}</b>
                             </div>
+
+                            <div class="col-span-2 flex justify-end" type="submit">
+                                {% if post.savePost %}
+                                <img src="{%static 'connect/images/saved.jpg' %}" alt="" srcset="" class="saved h-12 w-12 " onclick="window.location.href=`{% url 'post-unsave' post.id %}`">
+
+                                {% else %}
+                                <img src="{%static 'connect/images/save.png' %}" alt="" srcset=""  class="unsaved h-12 w-12 cursor-pointer"
+                                    onclick="window.location.href=`{% url 'post-save' post.id %}`">
+                                {% endif %}
+                            </div>
+
+
                         </div>
-                      </div>
-                      <div id="desc" style="font-size: 2.5rem
-                      ;">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. A nemo facilis numquam minus exercitationem aliquam repellendus ducimus corrupti?
-                      </div>
-                      <div onclick="location.href=`{% url 'connect-posts' %}`;" style="margin-top: 5rem; cursor: pointer;">
-                        <img src="{%static 'connect/images/images.jpg' %}" alt="" srcset="" style="height: 4rem;">
-                        <p style="display:inline-block ; margin-left: 2rem; font-size: 3rem;">My posts</p>
-                      </div>
-                      <div style="margin-top: 2rem;">
-                        <img src="{%static 'connect/images/images.png' %}" alt="" srcset="" style="height: 4rem;">
-                        <p style="display:inline-block ; font-size: 3rem; margin-left: 2rem;">Saved posts</p>
-                      </div>
-                      
                     </div>
+
                 </div>
-                <div class="container-fluid  "  id="create">
-                    <div onclick="location.href=`{% url 'connect-create' %}`;"  style="margin-left: 2rem; cursor: pointer;">
-                        <img src="{%static 'connect/images/images.jpg' %}" alt="" srcset="" style="height: 4rem;">
-                        <p style="display:inline-block ;margin-left: 2rem; font-size: 3rem ;">Create a new post</p>
-                    </div>
-                </div>
+
+                {% endfor %}
+                
             </div>
         </div>
-    
+        <div class="md:col-span-5 col-span-12 mt-24">
+            <div class="ml-36 mr-36 shadow-lg rounded-3xl">
+                <div class=" grid grid-cols-6 bg-orange-500 h-48 rounded-t-3xl text-white px-8 pt-20">
+                    <div class="text-5xl mb-2 col-span-4 flex items-center cursor-pointer" onclick="window.location.href=`{% url 'editprofile' %}`">My Profile
+                    </div>
+                    <div class="col-span-2 flex justify-end items-center">
+                        <img src="{%static 'connect\images\exit.png' %}" class="h-20 cursor-pointer" alt=""
+                            onclick="window.location.href=`{% url 'logout' %}`">
+                    </div>
+                    <a class="col-span-4 text-xl underline underline-offset-2 mb-2" href="{% url 'editprofile' %}">Edit Profile</a>
+
+                </div>
+                <div class="px-12 pt-12 " style="height: 28rem;">
+                    <div id="name" class="mb-8">
+                        <div class="grid grid-cols-6">
+                            <div class="col-span-1 flex items-center">
+                                <img src="{{ user.profile.image.url }}" alt="logo" srcset=""
+                                    class="h-12 w-12 rounded-full">
+                            </div>
+                            <div class=" col-span-5 pl-4 ">
+                                <div class=" ">username</div>
+                                <div><b>{{ user.username }}</b></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="desc" class="text-xl mt-12">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. A nemo facilis numquam minus
+                        exercitationem aliquam repellendus ducimus corrupti?
+                    </div>
+                    <div onclick="location.href=`{% url 'connect-posts' %}`;"
+                        class="grid grid-cols-6 mt-12 cursor-pointer">
+                        <div class="col-span-1">
+                            <img src="{%static 'connect\images\images.jpg' %}" alt="" srcset="" class="h-12">
+                        </div>
+                        <div class="col-span-5 text-2xl">My Posts</div>
+
+                    </div>
+                    <div onclick="location.href=`{% url 'connect-saved' %}`;"
+                        class="grid grid-cols-6 my-4 cursor-pointer">
+                        <div class="col-span-1">
+                            <img src="{%static 'connect\images\save.png' %}" alt="" srcset="" class="h-12">
+                        </div>
+                        <div class="col-span-5 text-2xl">Saved Posts</div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="ml-36 mr-36 shadow-lg rounded-3xl px-12 pt-8 pb-4 mt-4 cursor-pointer" id="create">
+                <div onclick="location.href=`{% url 'connect-create' %}`;" class="grid grid-cols-6 ">
+                    <div class="col-span-1">
+                        <img src="{%static 'connect\images\images.jpg' %}" alt="" srcset="" class="h-8">
+                    </div>
+                    <div class="col-span-5 text-2xl">Create a new Post</div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 
-
-
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{% static 'connect/scripts/create.js' %}"></script>
 </body>
+
 </html>
