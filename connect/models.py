@@ -6,15 +6,14 @@ from django.urls import reverse
 
 # Create your models here.
 class Post(models.Model):
-    title = models.CharField(max_length=100,default="0 Likes")
-    constent = models.TextField()
+    description = models.TextField(blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(default='base.jpg',upload_to='posts_pics')
-    savePost = models.BooleanField(default=False)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.title
+        return f'{self.author.username} {self.date_posted}'
         
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk':self.pk})

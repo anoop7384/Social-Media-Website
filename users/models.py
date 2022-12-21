@@ -1,14 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from connect.models import Post
 
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.png',upload_to='profile_pics')
-
+    bio=models.TextField(default="Add your bio")
+    savedPosts = models.ManyToManyField(Post,blank=True,related_name='user_saved_posts')
+    likedPosts = models.ManyToManyField(Post,blank=True,related_name='user_liked_posts')
+    
     def __str__(self):
-        return f'{self.user.username} Profile'
+        return f'{self.user.username}'
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
