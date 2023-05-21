@@ -147,6 +147,21 @@
                 </div>
               </div>
               <div class="px-8 mb-8 text-2xl">{{object.description}}</div>
+              <div id="comments" class="px-8 mb-8 text-2xl">
+                <div class="px-8 mb-8 text-2xl">Comments</div>
+                {% for comment in comments%}
+                <div class="px-8 mb-8 text-2xl">
+                  {{comment.author}} : {{comment.text}}
+                </div>
+                {% endfor %}
+                <form class="col-span-2 flex justify-end" method="POST" action="{% url 'post-comment' post.id %}">
+                  {% csrf_token %}
+                  <input type="text" name="textfield" id="textfield" />
+                  <button class="px-8 mb-8 text-2xl"type="submit">
+                    Comment
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
           {% if post.author == user %}

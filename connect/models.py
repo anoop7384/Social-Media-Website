@@ -18,4 +18,16 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk':self.pk})
 
-    
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    date_commented = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'{self.author.username} {self.date_commented}'
+
+    class Meta:
+        ordering = ['date_commented']
