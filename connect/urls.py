@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
+from chatrooms.views import chatroom
 from users import views as loginV
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
 from django.conf.urls.static import static
@@ -8,6 +9,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.home, name='connect-home'),
     path('profile/', PostListView.as_view(), name='connect-profile'),
+    path('mainprofile/', views.main_profile, name='main-profile'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='connect-create'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
@@ -21,6 +23,8 @@ urlpatterns = [
     path('posts/saved', views.saved, name='connect-saved'),
     path('posts/account/<int:pk>', views.user_posts, name='post-account'),
     path('profile/account/<int:pk>', views.user_profile, name='profile-account'),
+    path('', include('chatrooms.urls')),
+    # path('chatroom/<int:pk>', chatroom, name='chatroom'),
 ]
 
 

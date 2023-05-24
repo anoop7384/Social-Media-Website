@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from users.models import Profile
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from chatrooms.views import ChatRoom, Message
 
 
 # Create your views here.
@@ -19,9 +20,24 @@ def home(request):
 
 class PostListView(ListView):
     model = Post
-    template_name = 'connect/profile.html'
+    template_name = 'connect/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add objects of AnotherModel to the context
+        context['comments'] = Comment.objects.all()
+        context['chats'] = ChatRoom.objects.filter(sender=self.request.user)
+        return context
+
+
+def main_profile(request):
+    context = {
+        'title': 'My Posts',
+        'posts': Post.objects.filter(author=request.user),
+    }
+    return render(request, 'connect/profile.html', context)
 
 
 class PostDetailView(DetailView):
@@ -32,6 +48,7 @@ class PostDetailView(DetailView):
         # Add objects of AnotherModel to the context
         post_instance = self.object
         context['comments'] = Comment.objects.filter(post=post_instance)
+        context['chats'] = ChatRoom.objects.filter(sender=self.request.user)
         return context
 
 
@@ -42,6 +59,12 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add objects of AnotherModel to the context
+        context['chats'] = ChatRoom.objects.filter(sender=self.request.user)
+        return context
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -58,6 +81,12 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add objects of AnotherModel to the context
+        context['chats'] = ChatRoom.objects.filter(sender=self.request.user)
+        return context
+
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
@@ -70,13 +99,19 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add objects of AnotherModel to the context
+        context['chats'] = ChatRoom.objects.filter(sender=self.request.user)
+        return context
+
 
 def profile(request):
     context = {
         'title': 'My Posts',
         'posts': Post.objects.all(),
     }
-    return render(request, 'connect/profile.html', context)
+    return render(request, 'connect/home.html', context)
 
 
 def user_profile(request, pk):
@@ -84,9 +119,11 @@ def user_profile(request, pk):
     context = {
         'title': 'User Profile',
         'account': obj.author,
-        'user':request.user,
+        'user': request.user,
+        'posts': Post.objects.filter(author=obj.author),
     }
-    return render(request,'connect/user_profile.html',context)
+    return render(request, 'connect/user_profile.html', context)
+
 
 def create(request):
     return render(request, 'connect/create.html', {'title': 'Create Post'})

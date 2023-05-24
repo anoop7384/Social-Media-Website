@@ -9,6 +9,7 @@ class ChatRoom(models.Model):
         User, on_delete=models.CASCADE, related_name='sender_chatrooms')
     receiver = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='receiver_chatrooms')
+    last_text = models.TextField(default="")
 
 
 class Message(models.Model):
@@ -22,7 +23,7 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['timestamp']
 
     def __str__(self):
         return f"{self.sender.username} - {self.receiver.username} - {self.timestamp}"

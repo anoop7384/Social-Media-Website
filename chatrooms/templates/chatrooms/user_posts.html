@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="grid grid-cols-10 mx-48 mt-12 text-4xl">
-      <div class="col-span-8">Saved Posts</div>
+      <div class="col-span-8">{{account}} Posts</div>
       <div
         class="col-span-1 flex justify-end cursor-pointer"
         onclick="location.href=`{% url 'connect-profile' %}`;"
@@ -80,7 +80,7 @@
       </div>
       <div
         class="col-span-1 cursor-pointer"
-        onclick="location.href=`{% url 'main-profile' %}`;"
+        onclick="location.href=`{% url 'connect-profile' %}`;"
       >
         Go Back
       </div>
@@ -88,7 +88,7 @@
     <div
       class="grid lg:grid-cols-2 md:grid-cols-1 xl:grid-cols-3 gap-24 mx-56 mt-12"
     >
-      {% for post in posts%}
+      {% for post in posts%} {% if post.author == account%}
       <div class="container-fluid">
         <div class="card shadow-lg">
           <div
@@ -109,13 +109,13 @@
                 />
               </div>
               <div class="col-span-8 text-xl">
-                <b>{{ post.likes }}</b>
+                <b>{{ post.likes }} Likes</b>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {% endfor %}
+      {% endif%} {% endfor %}
     </div>
   </body>
 </html>

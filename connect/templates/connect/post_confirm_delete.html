@@ -107,76 +107,57 @@
           </button>
         </div>
       </div>
-      <div class="md:col-span-5 col-span-12 mt-24">
+      <div class="md:col-span-5 col-span-12 mt-0">
+        <div class="flex justify-end px-12 mb-20 mt-8 cursor-pointer" onclick="window.location.href=`{% url 'main-profile' %}`">
+          <img
+            src="{{user.profile.image.url}}"
+            alt="img"
+            width="80px"
+            height="80px"
+            class="h-12 w-12 rounded-full"
+          />
+        </div>
         <div class="ml-36 mr-36 shadow-lg rounded-3xl">
           <div
-            class="grid grid-cols-6 bg-orange-500 h-48 rounded-t-3xl text-white px-8 pt-20"
+            class="grid grid-cols-6 bg-orange-500 h-24 rounded-t-3xl text-white px-8 pt-4"
           >
             <div
               class="text-5xl mb-2 col-span-4 flex items-center cursor-pointer"
               onclick="window.location.href=`{% url 'editprofile' %}`"
             >
-              My Profile
+              Messages
             </div>
             <div class="col-span-2 flex justify-end items-center">
-              <img
-                src="{%static 'connect\images\exit.png' %}"
-                class="h-20 cursor-pointer"
-                alt=""
-                onclick="window.location.href=`{% url 'logout' %}`"
-              />
             </div>
-            <a
-              class="col-span-4 text-xl underline underline-offset-2 mb-2"
-              href="{% url 'editprofile' %}"
-              >Edit Profile</a
-            >
           </div>
-          <div class="px-12 pt-12" style="height: 28rem">
-            <div id="name" class="mb-8">
-              <div class="grid grid-cols-6">
-                <div class="col-span-1 flex items-center">
-                  <img
-                    src="{{ user.profile.image.url }}"
-                    alt="logo"
-                    srcset=""
-                    class="h-12 w-12 rounded-full"
-                  />
-                </div>
-                <div class="col-span-5 pl-4">
-                  <div class=" ">username</div>
-                  <div><b>{{ user.username }}</b></div>
-                </div>
-              </div>
-            </div>
-            <div id="desc" class="text-xl mt-12 h-28">{{user.profile.bio}}</div>
-            <div
-              onclick="location.href=`{% url 'connect-posts' %}`;"
-              class="grid grid-cols-6 mt-12 cursor-pointer"
-            >
-              <div class="col-span-1">
-                <img
-                  src="{%static 'connect\images\images.jpg' %}"
-                  alt=""
-                  srcset=""
-                  class="h-12"
-                />
-              </div>
-              <div class="col-span-5 text-2xl">My Posts</div>
-            </div>
-            <div
-              onclick="location.href=`{% url 'connect-saved' %}`;"
-              class="grid grid-cols-6 my-4 cursor-pointer"
-            >
-              <div class="col-span-1">
-                <img
-                  src="{%static 'connect\images\save.png' %}"
-                  alt=""
-                  srcset=""
-                  class="h-12"
-                />
-              </div>
-              <div class="col-span-5 text-2xl">Saved Posts</div>
+          <div class="px-4 pt-4" style="height: 28rem">
+            <div class="modal-body">
+              <ul class="list-unstyled">
+                {%for chat in chats%}
+                <a href="{% url 'chatroom' chat.receiver.id%}" class="text-decoration-none">
+                  <li class="media hover-media">
+                    <div class="grid grid-cols-12 mt-4">
+                      <div class="col-span-3">
+                        <img
+                          src="{{chat.receiver.profile.image.url}}"
+                          alt="img"
+                          width="60px"
+                          height="60px"
+                          class="h-12 w-12 rounded-full"
+                        />
+                      </div>
+                      <div class="media-body text-dark col-span-9">
+                        <h6 class="media-header">{{chat.receiver}}</h6>
+                        <p class="media-text">
+                          {{chat.last_text}}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </a>
+                <hr class="my-3" />
+                {% endfor %}
+              </ul>
             </div>
           </div>
         </div>
